@@ -6,7 +6,7 @@ COPY . .
 
 RUN npm install
 
-EXPOSE 8080
+EXPOSE 80
 # required for docker desktop port mapping
 
 CMD ["node", "app.js"]
