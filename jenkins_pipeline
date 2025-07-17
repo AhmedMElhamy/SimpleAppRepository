@@ -25,9 +25,9 @@ pipeline {
         stage('Build') {
             steps {
                 // Build your application here (e.g., compile, package, etc.)
-                docker build -t ahmedmelhamy/nodewebapp .
-                docker login -u "ahmedmelhamy" -p "j4a(hHsD8Z%p%pX" docker.io
-                docker push ahmedmelhamy/nodewebapp
+                sh docker build -t ahmedmelhamy/nodewebapp .
+                sh docker login -u "ahmedmelhamy" -p "j4a(hHsD8Z%p%pX" docker.io
+                sh docker push ahmedmelhamy/nodewebapp
             }
         }
 
