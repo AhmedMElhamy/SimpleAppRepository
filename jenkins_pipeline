@@ -1,11 +1,8 @@
 pipeline {
     agent any
-
     environment {
-        // Define environment variables here
-        MY_ENV_VAR = 'Custom Value'
+        RELEASE='20.04'
     }
-
     stages {
         stage('Checkout') {
             steps {
@@ -21,39 +18,34 @@ pipeline {
                 }
             }
         }
-
         stage('Build') {
             steps {
+                echo "Creating Docker Image"
                 // Build your application here (e.g., compile, package, etc.)
                 sh 'docker build -t ahmedmelhamy/nodewebapp .'
                 sh 'docker login -u "ahmedmelhamy" -p "j4a(hHsD8Z%p%pX" docker.io'
                 sh 'docker push ahmedmelhamy/nodewebapp'
             }
         }
-
         stage('Test') {
             steps {
-                // Run your tests (e.g., unit tests, integration tests)
-                sh 'echo "In Test Step"'
+                echo "Testing release"
             }
         }
-
         stage('Deploy') {
             input {
                 message 'Deploy?'
-                ok 'Deploy->'
+                ok 'Do it!'
                 parameters {
                     string(name: 'TARGET_ENVIRONMENT', defaultValue: 'PROD', description: 'Target deployment environment')
+                }
             }
             steps {
-                // Deploy your application to a target environment (e.g., staging, production)
-                sh 'echo "Deploy To "${TARGET_ENVIRONMENT}""'
-                
+                echo "Deploying to environment ${TARGET_ENVIRONMENT}"
             }
-        }
+        }        
     }
-
-    post {
+    post{
         success {
             // Actions to perform when the pipeline succeeds
             echo 'Pipeline succeeded!'
@@ -64,4 +56,3 @@ pipeline {
         }
     }
 }
-}}
